@@ -25,7 +25,7 @@ export const InputSearchContainer = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => justifyContent};
   align-items: center;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
   padding-bottom: 16px;
@@ -68,8 +68,8 @@ export const ListHeader = styled.header`
     }
 
     img {
-      transition: transform .2s ease-in;
-      transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)')}
+      transition: transform 0.2s ease-in;
+      transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)')};
     }
   }
 `;
@@ -137,5 +137,34 @@ export const ErrorContainer = styled.div`
       color: ${({ theme }) => theme.colors.danger.main};
       margin-bottom: 8px;
     }
+  }
+`;
+
+export const EmptyListContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin-top: 8px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+  }
+`;
+
+export const SearchNotFoundContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-start;
+
+  span {
+    word-break: break-word;
+    color: ${({ theme }) => theme.colors.gray[200]};
+    margin-left: 24px;
   }
 `;

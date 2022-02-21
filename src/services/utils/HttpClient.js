@@ -6,10 +6,7 @@ class HttpClient {
   }
 
   async get(path, options) {
-    const response = await fetch(
-      `${this.baseUrl}${path}`,
-      options,
-    );
+    const response = await fetch(`${this.baseUrl}${path}`, options);
 
     let body = null;
     const contentType = response.headers.get('Content-Type');

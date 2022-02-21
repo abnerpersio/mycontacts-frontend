@@ -18,14 +18,9 @@ export default function ContactForm({ buttonLabel }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
 
-  const {
-    errors,
-    setError,
-    removeError,
-    getErrorMessageByFieldName,
-  } = useErrors();
+  const { errors, setError, removeError, getErrorMessageByFieldName } = useErrors();
 
-  const isFormValid = (name && errors.length === 0);
+  const isFormValid = name && errors.length === 0;
 
   function handleNameChange(event) {
     setName(event.target.value);
@@ -48,17 +43,11 @@ export default function ContactForm({ buttonLabel }) {
   }
 
   function handlePhoneChange(event) {
-    setPhone(
-      formatPhone(event.target.value),
-    );
+    setPhone(formatPhone(event.target.value));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    // console.log({
-    //   name, email, phone, category,
-    // });
   }
 
   return (
@@ -94,10 +83,7 @@ export default function ContactForm({ buttonLabel }) {
       </FormGroup>
 
       <FormGroup>
-        <Select
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        >
+        <Select value={category} onChange={(event) => setCategory(event.target.value)}>
           <option value="">Categoria</option>
           <option value="instagram">Instagram</option>
           <option value="discord">Discord</option>
@@ -105,7 +91,9 @@ export default function ContactForm({ buttonLabel }) {
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit" disabled={!isFormValid}>{buttonLabel}</Button>
+        <Button type="submit" disabled={!isFormValid}>
+          {buttonLabel}
+        </Button>
       </ButtonContainer>
     </Form>
   );

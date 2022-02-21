@@ -45,7 +45,6 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
 
-
   .loader {
     color: ${({ theme }) => theme.colors.primary.main};
     font-size: 90px;
