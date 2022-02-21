@@ -22,12 +22,16 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
     "class-methods-use-this": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "object-curly-newline": "off",
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }]
   }
 }

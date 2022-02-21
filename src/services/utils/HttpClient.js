@@ -7,6 +7,7 @@ class HttpClient {
 
   async get(path, options) {
     const response = await fetch(`${this.baseUrl}${path}`, options);
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     let body = null;
     const contentType = response.headers.get('Content-Type');
