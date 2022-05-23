@@ -157,7 +157,7 @@ export default function Home() {
               <div className="info">
                 <div className="contact-name">
                   <strong>{contact.name}</strong>
-                  {contact.category_name && <small>contact.category_name</small>}
+                  {contact.category_name && <small>{contact.category_name}</small>}
                 </div>
                 <span>{contact.email}</span>
                 <span>{contact.phone}</span>
