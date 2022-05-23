@@ -5,8 +5,25 @@ class HttpClient {
     this.baseUrl = baseUrl;
   }
 
-  async get(path, options) {
-    const response = await fetch(`${this.baseUrl}${path}`, options);
+  async makeRequest(path, options = {}) {
+    const headers = new Headers();
+
+    if (options.body) {
+      headers.append('Content-Type', 'application/json');
+    }
+
+    if (options.headers) {
+      Object.entries(options.headers).forEach(([header, value]) => {
+        headers.append(header, value);
+      });
+    }
+
+    const response = await fetch(`${this.baseUrl}${path}`, {
+      method: options.method,
+      body: JSON.stringify(options.body),
+      headers,
+    });
+
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     let body = null;
@@ -23,29 +40,19 @@ class HttpClient {
     throw new APIError(response, body);
   }
 
-  async post(path, body) {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers,
+  get(path, options) {
+    return this.makeRequest(path, {
+      method: 'GET',
+      headers: options?.headers,
     });
+  }
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    let responseBody = null;
-    const contentType = response.headers.get('Content-Type');
-
-    if (contentType.includes('application/json')) {
-      responseBody = await response.json();
-    }
-
-    if (response.ok) {
-      return responseBody;
-    }
-
-    throw new APIError(response, responseBody);
+  post(path, options) {
+    return this.makeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
+    });
   }
 }
 
