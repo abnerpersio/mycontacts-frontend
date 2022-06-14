@@ -1,25 +1,21 @@
-import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
-
+import { ThemeProvider } from 'styled-components';
 import GlobalStyles from '../../assets/styles/global';
 import defaultTheme from '../../assets/styles/themes/default';
-
 import Routes from '../../routes';
-
-import logo from '../../assets/images/logo.svg';
-
-import { Container, Header } from './styles';
+import Header from '../Header';
+import ToastContainer from '../Toast/ToastContainer';
+import { Container } from './styles';
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyles />
+        <ToastContainer />
 
         <Container>
-          <Header>
-            <img src={logo} alt="MyContacts" width="201" />
-          </Header>
+          <Header />
 
           <Routes />
         </Container>
