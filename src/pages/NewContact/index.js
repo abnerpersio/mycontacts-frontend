@@ -15,9 +15,9 @@ export default function NewContact() {
 
       await ContactsService.createContact(contact);
 
-      toast('Contato cadastrado com sucesso!', 'success');
+      toast({ text: 'Contato cadastrado com sucesso!', type: 'success' });
     } catch (error) {
-      toast('Ocorreu um erro ao cadastrar o contato!', 'danger');
+      toast({ text: 'Ocorreu um erro ao cadastrar o contato!', type: 'danger' });
     }
   }
 

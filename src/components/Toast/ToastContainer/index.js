@@ -1,5 +1,5 @@
 import { randomBytes } from 'crypto';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toastEventManager } from '../../../utils/toast';
 import ToastMessage from '../ToastMessage';
 import { Container } from './styles';
@@ -7,10 +7,15 @@ import { Container } from './styles';
 export default function ToastContainer() {
   const [messages, setMessages] = useState([]);
 
+  const handleRemoveMessage = useCallback((messageId) => {
+    setMessages((prevState) => prevState.filter(({ id }) => id !== messageId));
+  }, []);
+
   useEffect(() => {
-    function handleAddToast({ type, text }) {
+    function handleAddToast(toast) {
       const id = randomBytes(8).toString('hex');
-      setMessages((prevState) => [...prevState, { id, type, text }]);
+      const message = { id, ...toast };
+      setMessages((prevState) => [...prevState, message]);
     }
 
     toastEventManager.on('toast', handleAddToast);
@@ -23,7 +28,7 @@ export default function ToastContainer() {
   return (
     <Container>
       {messages.map((message) => (
-        <ToastMessage key={message.id} type={message.type} text={message.text} />
+        <ToastMessage key={message.id} message={message} onRemoveMessage={handleRemoveMessage} />
       ))}
     </Container>
   );
