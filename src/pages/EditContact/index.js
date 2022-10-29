@@ -8,6 +8,7 @@ import { toast } from '../../utils/toast';
 
 export default function EditContact() {
   const [isLoading, setIsLoading] = useState(true);
+  const [contactName, setContactName] = useState('');
   const contactFormRef = useRef(null);
 
   const { id } = useParams();
@@ -16,8 +17,9 @@ export default function EditContact() {
   useEffect(() => {
     async function loadContact() {
       try {
-        const data = await ContactsService.getContact(id);
-        contactFormRef.current.setFields(data);
+        const contact = await ContactsService.getContact(id);
+        contactFormRef.current.setFields(contact);
+        setContactName(contact.name);
         setIsLoading(false);
       } catch (error) {
         history.push('/');
@@ -29,20 +31,26 @@ export default function EditContact() {
   }, [id, history]);
 
   async function handleSumit(params) {
-    const updatedContact = {
-      name: params.name,
-      email: params.email,
-      phone: params.phone,
-      category_id: params.categoryId,
-    };
+    try {
+      const { name: updatedName } = await ContactsService.updateContact(id, {
+        name: params.name,
+        email: params.email,
+        phone: params.phone,
+        category_id: params.categoryId,
+      });
 
-    console.log(updatedContact);
+      setContactName(updatedName);
+
+      toast({ text: 'Contato editado com sucesso!', type: 'success' });
+    } catch (error) {
+      toast({ text: 'Ocorreu um erro ao editar o contato!', type: 'danger' });
+    }
   }
 
   return (
     <>
       <Loader isLoading={isLoading} />
-      <PageHeader title="Editar Contato" />
+      <PageHeader title={isLoading ? 'Carregando...' : `Editar ${contactName}`} />
 
       <ContactForm ref={contactFormRef} buttonLabel="Salvar alterações" onSubmit={handleSumit} />
     </>
