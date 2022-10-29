@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 
@@ -14,10 +15,10 @@ export default function useSafeAsyncState(initalState) {
     };
   });
 
-  function setSafeAsyncState(value) {
+  const setSafeAsyncState = useCallback((value) => {
     if (!isMounted.current) return;
     setState(value);
-  }
+  }, []);
 
   return [state, setSafeAsyncState];
 }
