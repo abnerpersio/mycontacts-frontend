@@ -50,6 +50,7 @@ export default function EditContact() {
   return (
     <>
       <Loader isLoading={isLoading} />
+
       <PageHeader title={isLoading ? 'Carregando...' : `Editar ${contactName}`} />
 
       <ContactForm ref={contactFormRef} buttonLabel="Salvar alterações" onSubmit={handleSumit} />
