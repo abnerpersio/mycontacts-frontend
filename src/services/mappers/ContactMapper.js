@@ -9,7 +9,12 @@ class ContactMapper {
   }
 
   toDomain(persistenceContent) {
-    return persistenceContent;
+    return {
+      name: persistenceContent.name,
+      email: persistenceContent.email,
+      phone: persistenceContent.phone,
+      categoryId: persistenceContent.category_id,
+    };
   }
 }
 

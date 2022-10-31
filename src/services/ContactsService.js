@@ -10,8 +10,9 @@ class ContactsService {
     return this.httpClient.get(`/contacts?orderBy=${orderBy}`);
   }
 
-  getContact(id) {
-    return this.httpClient.get(`/contacts/${id}`);
+  async getContact(id) {
+    const data = await this.httpClient.get(`/contacts/${id}`);
+    return ContactMapper.toDomain(data);
   }
 
   createContact(contact) {
