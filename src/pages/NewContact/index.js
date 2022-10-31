@@ -9,13 +9,7 @@ export default function NewContact() {
 
   async function handleSumit(params) {
     try {
-      await ContactsService.createContact({
-        name: params.name,
-        email: params.email,
-        phone: params.phone,
-        category_id: params.categoryId,
-      });
-
+      await ContactsService.createContact(params);
       contactFormRef.current.resetFields();
 
       toast({ text: 'Contato cadastrado com sucesso!', type: 'success' });
