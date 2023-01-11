@@ -49,7 +49,7 @@ export default function Home() {
           checkIfIsSearched(contact.name, searchTerm) ||
           checkIfIsSearched(contact.email, searchTerm) ||
           checkIfIsSearched(contact.phone, searchTerm) ||
-          checkIfIsSearched(contact.category_name, searchTerm),
+          checkIfIsSearched(contact.category.name, searchTerm),
       ),
     [contacts, searchTerm],
   );
@@ -62,7 +62,7 @@ export default function Home() {
 
       setHasError(false);
       setContacts(contactsList);
-    } catch (error) {
+    } catch {
       setHasError(true);
     } finally {
       setIsLoading(false);
@@ -201,7 +201,7 @@ export default function Home() {
               <div className="info">
                 <div className="contact-name">
                   <strong>{contact.name}</strong>
-                  {contact.category_name && <small>{contact.category_name}</small>}
+                  {contact.category.name && <small>{contact.category.name}</small>}
                 </div>
                 <span>{contact.email}</span>
                 <span>{contact.phone}</span>
