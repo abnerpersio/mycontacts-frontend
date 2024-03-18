@@ -1,22 +1,23 @@
 class ContactMapper {
-  toPersistence(domainContent) {
+  toPersistence(domainContact) {
     return {
-      name: domainContent.name,
-      email: domainContent.email,
-      phone: domainContent.phone,
-      category_id: domainContent.categoryId,
+      id: domainContact.id,
+      name: domainContact.name,
+      email: domainContact.email,
+      phone: domainContact.phone,
+      category_id: domainContact.categoryId,
     };
   }
 
-  toDomain(persistenceContent) {
+  toDomain(persistenceContact) {
     return {
-      id: persistenceContent.id,
-      name: persistenceContent.name,
-      email: persistenceContent.email,
-      phone: persistenceContent.phone,
+      id: persistenceContact.id,
+      name: persistenceContact.name,
+      email: persistenceContact.email,
+      phone: persistenceContact.phone,
       category: {
-        id: persistenceContent.category_id,
-        name: persistenceContent.category_name,
+        id: persistenceContact.category_id,
+        name: persistenceContact.category_name,
       },
     };
   }

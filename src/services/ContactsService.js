@@ -8,7 +8,7 @@ class ContactsService {
 
   async listContacts(orderBy = 'asc') {
     const contacts = (await this.httpClient.get(`/contacts?orderBy=${orderBy}`)) ?? [];
-    return contacts.map((contact) => ContactMapper.toDomain(contact));
+    return contacts.map(ContactMapper.toDomain);
   }
 
   async getContact(id) {
