@@ -1,25 +1,17 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { Link } from 'react-router-dom';
-import {
-  Container,
-  ListHeader,
-  Card,
-  ErrorContainer,
-  EmptyListContainer,
-  SearchNotFoundContainer,
-} from './styles';
+import { Container, ListHeader, Card, EmptyListContainer, SearchNotFoundContainer } from './styles';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
-import sad from '../../assets/images/icons/sad.svg';
 import emptyBox from '../../assets/images/icons/empty-box.svg';
 import magnifierQuestion from '../../assets/images/icons/magnifier-question.svg';
 import Loader from '../../components/Loader';
 import Modal from '../../components/Modal';
-import Button from '../../components/Button';
 import { useHome } from './useHome';
 import InputSearch from './components/InputSerach';
 import Header from './components/Header';
+import ErrorStatus from './components/ErrorStatus';
 
 export default function Home() {
   const {
@@ -52,19 +44,7 @@ export default function Home() {
         filteredContactsQty={filteredContacts.length}
       />
 
-      {hasError && (
-        <ErrorContainer>
-          <img src={sad} alt="sad" />
-
-          <div className="details">
-            <strong>Ocorreu um erro ao obter os seus contatos!</strong>
-
-            <Button onClick={handleTryAgain} type="button">
-              Tentar novamente
-            </Button>
-          </div>
-        </ErrorContainer>
-      )}
+      {hasError && <ErrorStatus onTryAgain={handleTryAgain} />}
 
       {!hasError && (
         <>
