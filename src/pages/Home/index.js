@@ -61,20 +61,20 @@ export default function Home() {
             onConfirmDeleteContact={handleConfirmDeleteContact}
             onDeleteContact={handleDeleteContact}
           />
+
+          <Modal
+            isLoading={isLoadingDelete}
+            visible={isDeleteModalVisible}
+            title={`Tem certeza que deseja remover o contato ”${contactBeingDeleted?.name}”?`}
+            danger
+            confirmLabel="Deletar"
+            onCancel={handleCloseDeleteModal}
+            onConfirm={handleConfirmDeleteContact}
+          >
+            <p>Esta ação não poderá ser desfeita!</p>
+          </Modal>
         </>
       )}
-
-      <Modal
-        isLoading={isLoadingDelete}
-        visible={isDeleteModalVisible}
-        title={`Tem certeza que deseja remover o contato ”${contactBeingDeleted?.name}”?`}
-        danger
-        confirmLabel="Deletar"
-        onCancel={handleCloseDeleteModal}
-        onConfirm={handleConfirmDeleteContact}
-      >
-        <p>Esta ação não poderá ser desfeita!</p>
-      </Modal>
     </Container>
   );
 }
