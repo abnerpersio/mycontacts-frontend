@@ -1,21 +1,23 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 `;
 
 const scaleIn = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+`;
+
+const fadeOut = keyframes`
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+`;
+
+const scaleOut = keyframes`
+  0% { transform: scale(1); }
+  100% { transform: scale(0); }
 `;
 
 export const Overlay = styled.div`
@@ -31,6 +33,13 @@ export const Overlay = styled.div`
   justify-content: center;
   animation: ${fadeIn} 0.3s;
   animation-fill-mode: forwards;
+
+  ${({ isLeaving }) =>
+    isLeaving &&
+    css`
+      animation: ${fadeOut} 0.2s;
+      animation-fill-mode: forwards;
+    `}
 `;
 
 export const Container = styled.div`
@@ -41,6 +50,13 @@ export const Container = styled.div`
   padding: 24px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   animation: ${scaleIn} 0.3s;
+
+  ${({ isLeaving }) =>
+    isLeaving &&
+    css`
+      animation: ${scaleOut} 0.2s;
+      animation-fill-mode: forwards;
+    `}
 
   .modal-body {
     margin-top: 32px;
