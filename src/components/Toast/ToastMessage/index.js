@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Container } from './styles';
 
 import checkIcon from '../../../assets/images/icons/check-circle.svg';
 import errorIcon from '../../../assets/images/icons/error-circle.svg';
 
-export default function ToastMessage({ isLeaving, message, onRemoveMessage, animatedRef }) {
+function ToastMessage({ isLeaving, message, onRemoveMessage, animatedRef }) {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onRemoveMessage(message.id);
@@ -51,3 +51,5 @@ ToastMessage.propTypes = {
   isLeaving: PropTypes.bool,
   animatedRef: PropTypes.shape().isRequired,
 };
+
+export default memo(ToastMessage);
