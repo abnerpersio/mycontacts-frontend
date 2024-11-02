@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ContactsService from '../../services/ContactsService';
 import useIsMounted from '../../hooks/useIsMounted';
 import { toast } from '../../utils/toast';
@@ -11,7 +11,7 @@ export function useEditContact() {
   const isMounted = useIsMounted();
 
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -20,7 +20,9 @@ export function useEditContact() {
       try {
         const contact = await ContactsService.getContact(id, controller.signal);
 
-        if (!isMounted()) return;
+        if (!isMounted()) {
+          return;
+        }
 
         contactFormRef.current.setFields(contact);
         setContactName(contact.name);
@@ -34,7 +36,7 @@ export function useEditContact() {
           return;
         }
 
-        history.push('/');
+        navigate('/', { replace: true });
         toast({ type: 'danger', text: 'Contato não encontrado!' });
       }
     }
@@ -44,7 +46,7 @@ export function useEditContact() {
     return () => {
       controller.abort();
     };
-  }, [id, history, isMounted]);
+  }, [id, navigate, isMounted]);
 
   async function handleSubmit(params) {
     try {

@@ -9,6 +9,7 @@ export default function Button(props) {
     danger = false,
     isLoading = false,
     onClick = undefined,
+    children,
   } = props;
 
   return (
