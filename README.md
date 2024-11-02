@@ -1,5 +1,5 @@
 ## mycontacts - frontend
-An web app that saves contacts list in a simple way
+A web app that saves contacts list in a simple way
 
 
 #### This project was made for learning React and more about JavaScript
