@@ -2,7 +2,15 @@ import PropTypes from 'prop-types';
 import Spinner from '../Spinner';
 import { StyledButton } from './styles';
 
-export default function Button({ type, disabled, isLoading, danger, children, onClick }) {
+export default function Button(props) {
+  const {
+    type = 'button',
+    disabled = false,
+    danger = false,
+    isLoading = false,
+    onClick = undefined,
+  } = props;
+
   return (
     <StyledButton type={type} disabled={disabled || isLoading} danger={danger} onClick={onClick}>
       {!isLoading && children}
@@ -18,12 +26,4 @@ Button.propTypes = {
   danger: PropTypes.bool,
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-};
-
-Button.defaultProps = {
-  type: 'button',
-  disabled: false,
-  danger: false,
-  isLoading: false,
-  onClick: undefined,
 };

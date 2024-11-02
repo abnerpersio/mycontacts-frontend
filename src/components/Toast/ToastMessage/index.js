@@ -5,7 +5,9 @@ import { Container } from './styles';
 import checkIcon from '../../../assets/images/icons/check-circle.svg';
 import errorIcon from '../../../assets/images/icons/error-circle.svg';
 
-function ToastMessage({ isLeaving, message, onRemoveMessage, animatedRef }) {
+function ToastMessage(props) {
+  const { isLeaving = false, message, onRemoveMessage, animatedRef } = props;
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onRemoveMessage(message.id);
@@ -35,10 +37,6 @@ function ToastMessage({ isLeaving, message, onRemoveMessage, animatedRef }) {
     </Container>
   );
 }
-
-ToastMessage.defaultProps = {
-  isLeaving: false,
-};
 
 ToastMessage.propTypes = {
   message: PropTypes.shape({

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { randomBytes } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import ToastMessage from '../ToastMessage';
 import { Container } from './styles';
 import { toastEventManager } from '../../../utils/toast';
@@ -10,7 +10,7 @@ export default function ToastContainer() {
 
   useEffect(() => {
     function handleAddToast(toast) {
-      const id = randomBytes(8).toString('hex');
+      const id = uuidv4();
       const message = { id, ...toast };
       setMessages((prevState) => [...prevState, message]);
     }

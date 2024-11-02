@@ -26,5 +26,6 @@ export const Overlay = styled.div`
     isLeaving &&
     css`
       animation: ${fadeOut} 0.3s;
+      animation-fill-mode: forwards;
     `}
 `;
