@@ -22,6 +22,7 @@ class HttpClient {
       method: options.method,
       body: JSON.stringify(options.body),
       headers,
+      signal: options.signal,
     });
 
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -44,6 +45,7 @@ class HttpClient {
     return this.makeRequest(path, {
       method: 'GET',
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 
@@ -52,6 +54,7 @@ class HttpClient {
       method: 'POST',
       body: options?.body,
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 
@@ -60,6 +63,7 @@ class HttpClient {
       method: 'PUT',
       body: options?.body,
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 
@@ -67,6 +71,7 @@ class HttpClient {
     return this.makeRequest(path, {
       method: 'DELETE',
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 }

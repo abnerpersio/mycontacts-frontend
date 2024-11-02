@@ -1,69 +1,86 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import ContactsService from '../../services/ContactsService';
 import { toast } from '../../utils/toast';
+
+function checkIfIsSearched(item, searchWord) {
+  return item?.toLowerCase()?.includes(searchWord?.toLowerCase());
+}
 
 export function useHome() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
-  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [contactBeingDeleted, setContactBeingDeleted] = useState(null);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
-  function checkIfIsSearched(item, searchWord) {
-    return item?.toLowerCase()?.includes(searchWord?.toLowerCase());
-  }
+  const [searchTerm, setSearchTerm] = useState('');
+  const deferedSearchTerm = useDeferredValue(searchTerm);
 
   const filteredContacts = useMemo(
     () =>
       contacts.filter(
         (contact) =>
-          checkIfIsSearched(contact.name, searchTerm) ||
-          checkIfIsSearched(contact.email, searchTerm) ||
-          checkIfIsSearched(contact.phone, searchTerm) ||
-          checkIfIsSearched(contact.category.name, searchTerm),
+          checkIfIsSearched(contact.name, deferedSearchTerm) ||
+          checkIfIsSearched(contact.email, deferedSearchTerm) ||
+          checkIfIsSearched(contact.phone, deferedSearchTerm) ||
+          checkIfIsSearched(contact.category.name, deferedSearchTerm),
       ),
-    [contacts, searchTerm],
+    [contacts, deferedSearchTerm],
   );
 
-  const loadContacts = useCallback(async () => {
-    try {
-      setIsLoading(true);
+  const loadContacts = useCallback(
+    async (signal) => {
+      try {
+        setIsLoading(true);
 
-      const contactsList = await ContactsService.listContacts(orderBy);
+        const contactsList = await ContactsService.listContacts(orderBy, signal);
 
-      setHasError(false);
-      setContacts(contactsList);
-    } catch {
-      setHasError(true);
-      setContacts([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [orderBy]);
+        setHasError(false);
+        setContacts(contactsList);
+      } catch (error) {
+        console.log('error', error);
+
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
+
+        setHasError(true);
+        setContacts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [orderBy],
+  );
 
   useEffect(() => {
-    loadContacts();
+    const controller = new AbortController();
+
+    loadContacts(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
   }, [loadContacts]);
 
-  function handleToggleOrderBy() {
+  const handleToggleOrderBy = useCallback(() => {
     setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
-  }
+  }, []);
 
-  function handleChangeSearchTerm(e) {
-    setSearchTerm(e.target.value);
-  }
+  const handleChangeSearchTerm = useCallback((event) => {
+    setSearchTerm(event.target.value);
+  }, []);
 
   function handleTryAgain() {
     loadContacts();
   }
 
-  function handleDeleteContact(contact) {
+  const handleDeleteContact = useCallback((contact) => {
     setContactBeingDeleted(contact);
     setIsDeleteModalVisible(true);
-  }
+  }, []);
 
   function handleCloseDeleteModal() {
     setIsDeleteModalVisible(false);
